@@ -10,8 +10,7 @@ from flask_login import LoginManager
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 login_manager = LoginManager()
-photos = UploadSet('photos', IMAGES)
-mail = Mail()
+
 
 
 def create_app(config_name):
@@ -28,8 +27,7 @@ def create_app(config_name):
     login_manager.session_protection = 'strong'
     login_manager.login_view = 'auth.login'
     # configure upload setUp
-    configure_uploads(app, photos)
-    mail.init_app(app)
+
     # Registering the blueprint
 
     from .main import main as main_blueprint
