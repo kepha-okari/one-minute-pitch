@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+
+{% block styles%}
+    {{ super() }}
+    <link href="https://fonts.googleapis.com/css?family=Boogaloo|Bungee|Caveat+Brush|Russo+One" rel="stylesheet">
+    <link rel="icon" href="static/images/favicon.ico">
+{% endblock %}
+{% block content %}
+    <div class="container" style="font-family: 'Russo One', sans-serif;">
+      <div class="row" style="margin-top:-30px">
+        <div class="col-sm-6" style="height:250px">
+            <a href="/">
+              <h3 style="font-weight:bold; text-align:center;margin-bottom:-10px">PICK UP LINES</h3>
+            </a>
+            <br>
+              <img src="static/images/pick-up.jpg" style="height:100%;width:100%">
+          </div>
+          <div class="col-sm-6" style="height:250px">
+              <a href="/">
+                <h3 style="font-weight:bold; text-align:center;margin-bottom:-10px">INTERVIEW PITCH</h3>
+              </a>
+              <br>
+                <img src="static/images/interview.gif" style="height:100%;width:100%">
+            </div>
+      </div>
+      <div class="row" style="margin-top:40px">
+        <div class="col-sm-6" style="height:250px">
+            <a href="/">
+              <h3 style="font-weight:bold; text-align:center;margin-bottom:-10px">PRODUCT PITCH</h3>
+            </a>
+            <br>
+              <img src="static/images/sales.jpg" style="height:100%;width:100%">
+          </div>
+          <div class="col-sm-6" style="height:250px">
+              <a href="/">
+                <h3 style="font-weight:bold; text-align:center;margin-bottom:-10px">PROMOTION PITCH</h3>
+              </a>
+              <br>
+                <img src="static/images/promo.jpg" style="height:100%;width:100%">
+            </div>
+
+      </div>
+
+
+    </div>
+
+{% endblock %}
