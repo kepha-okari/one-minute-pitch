@@ -7,5 +7,5 @@ from flask_login import login_required
 def index():
     """View root page function that returns index page and the various news sources"""
 
-    title = 'Home- Welcome to the Pitch Website'
-    return render_template('index.html', title=title)
+    title = 'Home- Welcome'
+    return render_template('index.html', title = title)
