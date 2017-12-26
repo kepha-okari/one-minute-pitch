@@ -8,6 +8,9 @@ from .. import db
 # registration route
 @auth.route('/reqister',methods=['GET','POST'])
 def register():
+    '''
+    function that registaers the users
+    '''
     form =RegistrationForm()
     if form.validate_on_submit():
         user =User(email=form.email.data,username=form.username.data,password=form.password.data)
@@ -17,3 +20,21 @@ def register():
         return redirect(url_for('auth.login'))
         title='New Account'
     return render_template('auth/register.html',registration_form=form)
+
+# Login
+@auth.route('/login',methods=['GET','POST'])
+def login():
+    '''
+    Function that checks if the form is validated
+    '''
+    login_form=LoginForm()
+    if login_form.validate_on_submit():
+        user=User.query.filter_by(email=login_form.email.data).first()
+        if user is not None and user.verify_password(login_form.password.data):
+            login_user(user,login_form.remember.data)
+            return redirect(request.args.get('next')or url_for('main.index'))
+
+        flash('invalid username or password')
+
+    title ="One Minute Pitch login"
+    return render_template('auth/login.html',login_form=login_form,title=title)
