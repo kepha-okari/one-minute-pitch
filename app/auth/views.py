@@ -21,7 +21,7 @@ def register():
         title='New Account'
     return render_template('auth/register.html',registration_form=form)
 
-# Login
+# Login function
 @auth.route('/login',methods=['GET','POST'])
 def login():
     '''
@@ -38,3 +38,10 @@ def login():
 
     title ="One Minute Pitch login"
     return render_template('auth/login.html',login_form=login_form,title=title)
+
+#logout function
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))# redirects user to the main page of the app after successful logout
