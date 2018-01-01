@@ -1,18 +1,18 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,ValdationError,BooleanField
-fromwtforms.validators import Required,Email,EqualTo
-from ..models import users
+from wtforms.validators import Required,Email,EqualTo
+from ..models import User
 
-class RegstrationForm(FlaskForm0):
+class RegstrationForm(FlaskForm):
     """
         RegstrationForm class that passes in the required details for validation
     """
-    email=StringField('your email address',validators=[Required(),Email()])
-    username=StringField('your username',validators=[Required()])
-    password=PasswordField("password",validators=[Required(),
+    email = StringField('your email address',validators=[Required(),Email()])
+    username = StringField('your username',validators=[Required()])
+    password = PasswordField("password",validators=[Required(),
     EqualTo('password',message='passwords must match')])
-    password_confirm=PasswordField('confirm password',validators=[Required()])
-    submit=SubmitField('sign Up')
+    password_confirm = PasswordField('confirm password',validators=[Required()])
+    submit = SubmitField('sign Up')
 
 
     #custom validators
@@ -28,11 +28,11 @@ class RegstrationForm(FlaskForm0):
         Function checks if the username is unique and raises ValidationError
         '''
         if User.query.filter_by(username = data_field.data).first():
-            raise ValidationError('that user name is taken')
+            raise ValidationError('that user name is already taken. Try another one')
 
 #login class  takes three inputs from the user
 class LoginForm(FlaskForm):
-    email=StringField('your email address',validators=[Required(),Email()])
-    password=PasswordField('password',validators=[Required()])
+    email = StringField('your email address',validators=[Required(),Email()])
+    password = ('password',validators=[Required()])
     remember = BooleanField('remember me')
-    submit=SubmitField('sign in')
+    submit = SubmitField('sign in')

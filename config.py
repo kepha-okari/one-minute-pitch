@@ -33,4 +33,5 @@ class DevConfig(Config):
 config_options = {
     'development': DevConfig,
     'production': ProdConfig
+    #'test':TestConfig
 }
