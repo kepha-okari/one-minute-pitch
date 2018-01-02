@@ -7,7 +7,7 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://rkepha:rkepha123@localhost/pitch'#os.environ.get("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://rkepha:KR@localhost/pitch'#os.environ.get("SQLALCHEMY_DATABASE_URI")
     SECRET_KEY = os.environ.get("SECRET_KEY")
     UPLOADED_PHOTOS_DEST = 'app/static/photos'
     MAIL_SERVER = 'smtp.gmail.com'
@@ -22,7 +22,7 @@ class Config:
 
 class ProdConfig(Config):
     """Production configuration class that inherits from the main configurations class"""
-    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://rkepha:rkepha123@localhost/pitch'# os.environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://rkepha:KR@localhost/pitch'# os.environ.get("DATABASE_URL")
 
 
 class DevConfig(Config):

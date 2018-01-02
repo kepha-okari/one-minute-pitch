@@ -12,6 +12,7 @@ def load_user(user_id):
     Function queries the database and gets a user's id as a response
     '''
     return User.query.get(int(user_id))
+
 class User(UserMixin,db.Model):
     """class modelling the users"""
     __tablename__='users'
@@ -21,3 +22,14 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True, index =True)
     password_hash = db.Column(db.String(255))
+    
+class Category(db.Model):
+    '''
+    Category class define category per pitch
+    '''
+    __tablename__ = 'categories'
+
+    # add columns
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
