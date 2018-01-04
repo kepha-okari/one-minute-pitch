@@ -19,7 +19,7 @@ def register():
 
         return redirect(url_for('auth.login'))
         title='New Account'
-    return render_template('/register.html',registration_form=form)
+    return render_template('auth/register.html',registration_form=form)
 
 # Login function
 @auth.route('/login',methods=['GET','POST'])
@@ -36,7 +36,7 @@ def login():
 
         flash('invalid username or password')
 
-    title ="One Minute Pitch login"
+    title ="One Minute Pitch|Login"
     return render_template('auth/login.html',login_form=login_form,title=title)
 
 #logout function

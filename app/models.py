@@ -13,6 +13,30 @@ def load_user(user_id):
     '''
     return User.query.get(int(user_id))
 
+#comments model
+class Comment(db.Model):
+    """class models comments from users in pitches"""
+    __tablename__ = 'comments'
+
+    # add columns
+    id = db.Column(db. Integer,primary_key = True)
+    comment_section_id = db.Column(db.String(255))
+    date_posted = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    #pitches_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
+
+
+    def save_comment(self):
+        """ Save the comments per pitch """
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(self,id):
+        comment = Comments.query.order_by(Comments.date_posted.desc()).filter_by(pitches_id=id).all()
+        return comment
+
+
 class User(UserMixin,db.Model):
     """ class modelling the users """
 
@@ -25,7 +49,7 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
     pitches = db.relationship("Pitch", backref="user", lazy = "dynamic")
-    comment = db.relationship("Comments", backref="user", lazy = "dynamic")
+    #comment = db.relationship("Comments", backref="user", lazy = "dynamic")
 
     # securing passwords
     @property
@@ -53,10 +77,8 @@ class Pitch(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     content = db.Column(db.String)
-    date_posted = db.Column(db.DateTime,default=datetime.now)
+    cagory_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    category_id = db.Column(db.Integer,db.ForeignKey("categories.id"))
-    # comment = db.relationship("Comments", backref="Pitch", lazy = "dynamic")
 
 
     def save_pitch(self):
@@ -73,6 +95,7 @@ class Pitch(db.Model):
     def get_pitches(cls,id):
         pitches = Pitch.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
         return pitches
+
 # categories model
 class Category(db.Model):
     ''' Category class define category per pitch '''
@@ -95,26 +118,3 @@ class Category(db.Model):
         ''' gets pitches by category '''
         categories = Category.query.all()
         return categories
-
-# #comments model
-class Comment(db.Model):
-    """class models comments from users in pitches"""
-    __tablename__ = 'comments'
-
-    # add columns
-    id = db.Column(db. Integer,primary_key = True)
-    comment_section_id = db.Column(db.String(255))
-    date_posted = db.Column(db.DateTime,default=datetime.utcnow)
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    pitches_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
-
-
-    def save_comment(self):
-        """ Save the comments per pitch """
-        db.session.add(self)
-        db.session.commit()
-
-    @classmethod
-    def get_comments(self,id):
-        comment = Comments.query.order_by(Comments.date_posted.desc()).filter_by(pitches_id=id).all()
-        return comment
