@@ -63,7 +63,6 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.pass_secure,password)
 
-
     def __repr__(self):
         return f'User {self.username}'
 
@@ -71,7 +70,6 @@ class User(UserMixin,db.Model):
 #pitches class
 class Pitch(db.Model):
     """ List of pitches in each category """
-    all_pitches = []
 
     __tablename__ = 'pitches'
 
@@ -92,8 +90,8 @@ class Pitch(db.Model):
 
     # display pitches
     @classmethod
-    def get_pitches(cls,id):
-        pitches = Pitch.query.order_by(Pitch.date_posted.desc()).filter_by(category_id=id).all()
+    def get_pitches(cls):
+        pitches = Pitch.query.all()
         return pitches
 
 # categories model

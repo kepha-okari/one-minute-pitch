@@ -15,6 +15,8 @@ def index():
 
 @main.route('/category/pitch/new/', methods=['GET', 'POST'] )
 @login_required
+
+#route to page for posting pitch
 def new_pitch():
     """function to create the pitches"""
     form = PitchForm()
@@ -27,13 +29,55 @@ def new_pitch():
         new_pitch= Pitch(content=content,cagory_id= category_id)
         new_pitch.save_pitch()
 
-        #return redirect(url_for('.category', id=category.id))
 
     return render_template('new_pitch.html', form=form)
 
+@main.route('/inteview_pitches/')
+def interview():
+    '''
+    View root page function that returns interview pitches
+    '''
+    title = 'Interviews'
+
+    pitches= Pitch.get_pitches()
+
+    return render_template('interview.html', title = title, pitches= pitches )
+#pickup lines route
+@main.route('/pick_up_line/')
+def pick_up_line():
+    '''
+    View root page function that returns interview pitches
+    '''
+    title = 'Pick up lines'
+
+    pitches= Pitch.get_pitches()
+
+    return render_template('pick_up_line.html', title = title, pitches= pitches )
+#promotions route
+@main.route('/promotion/')
+def promotion():
+    '''
+    View root page function that returns promotion pitches
+    '''
+    title = 'Promotion'
+
+    pitches= Pitch.get_pitches()
+
+    return render_template('promotion.html', title = title, pitches= pitches )
+
+@main.route('/product/')
+def product():
+    '''
+    View root page function that returns promotion pitches
+    '''
+    title = 'Promotion'
+
+    pitches= Pitch.get_pitches()
+
+    return render_template('product.html', title = title, pitches= pitches )
+
 
 # Route for adding a new pitch
-
 # @main.route('/category/pitch/new/<int:id>', methods=['GET', 'POST'])
 # @login_required
 # def new_pitch(id):
