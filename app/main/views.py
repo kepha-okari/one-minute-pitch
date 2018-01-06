@@ -8,7 +8,7 @@ from flask_login import login_required
 
 @main.route('/')
 def index():
-    """View root page function that returns index page"""
+    """ View root page function that returns index page """
 
     title = 'Home- Welcome'
     return render_template('index.html', title = title)
@@ -18,21 +18,24 @@ def index():
 
 #route to page for posting pitch
 def new_pitch():
-    """function to create the pitches"""
+    """ function to create the pitches """
     form = PitchForm()
 
     if form.validate_on_submit():
         content=form.content.data
         category_id=form.category_id.data
 
+        ### clear content field after post
+        form.content.data = ''
 
-        new_pitch= Pitch(content=content,cagory_id= category_id)
+        new_pitch= Pitch(content=content,category_id= category_id)
         new_pitch.save_pitch()
 
 
-    return render_template('new_pitch.html', form=form)
+    return render_template('new_pitch.html', form_pitch=form)
 
 @main.route('/inteview_pitches/')
+@login_required
 def interview():
     '''
     View root page function that returns interview pitches
@@ -53,6 +56,7 @@ def pick_up_line():
     pitches= Pitch.get_pitches()
 
     return render_template('pick_up_line.html', title = title, pitches= pitches )
+
 #promotions route
 @main.route('/promotion/')
 def promotion():
@@ -65,6 +69,7 @@ def promotion():
 
     return render_template('promotion.html', title = title, pitches= pitches )
 
+#product route
 @main.route('/product/')
 def product():
     '''
@@ -75,6 +80,27 @@ def product():
     pitches= Pitch.get_pitches()
 
     return render_template('product.html', title = title, pitches= pitches )
+
+@main.route('/pitch/new/<int:id>', methods=['GET', 'POST'])
+@login_required
+def new_comment(id):
+    '''
+    Function that returns a list of comments for the particular pitch
+    '''
+    form = CommentForm()
+    pitches = Pitches.query.filter_by(id=id).first()
+
+    if pitches is None:
+        abort(404)
+
+    if form.validate_on_submit():
+        comment_data = form.comment_id.data
+        new_comment = Comments(comment_data=comment_data,
+                               user_id=current_user.id, pitches_id=pitches.id)
+        new_comment.save_comment()
+        return redirect(url_for('.category', id=pitches.category_id))
+
+    return render_template('comment.html', comment_form=form)
 
 
 # Route for adding a new pitch

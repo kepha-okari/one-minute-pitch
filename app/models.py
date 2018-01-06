@@ -49,7 +49,7 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
     pitches = db.relationship("Pitch", backref="user", lazy = "dynamic")
-    #comment = db.relationship("Comments", backref="user", lazy = "dynamic")
+    comment = db.relationship("Comments", backref="user", lazy = "dynamic")
 
     # securing passwords
     @property
@@ -75,7 +75,7 @@ class Pitch(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     content = db.Column(db.String)
-    cagory_id = db.Column(db.Integer)
+    category_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
 
@@ -116,3 +116,29 @@ class Category(db.Model):
         ''' gets pitches by category '''
         categories = Category.query.all()
         return categories
+
+class Comments(db.Model):
+    '''
+    Comment class that creates instances of Comments class that will be attached to a particular pi
+    '''
+    __tablename__ = 'comment'
+
+    # add columns
+    id = db.Column(db. Integer, primary_key=True)
+    opinion = db.Column(db.String(255))
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+
+    def save_comment(self):
+        '''
+        Save the comments per pitch
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(self, id):
+        comment = Comments.query.order_by(
+            Comments.date_posted.desc()).filter_by(pitches_id=id).all()
+        return comment
