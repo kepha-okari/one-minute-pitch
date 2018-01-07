@@ -39,6 +39,22 @@ This is a web application that allows various users to submit a short pitch. Use
 * Inside the manage.py module change the config_name parameter from 'production' to 'development' ie app = create_app('production') should be app = create_app('development')
 * $ ./start.sh
 
+
+# How it works
+
+* A user needs to sign up
+* A user the needs to sign in order to create,vote and post pitches
+
+# CREDITS
+
+#### Google.com, StackOverflow.com and Miguel Grinberg -author of 'Flask Web Development'
+
+
+# Support and Contacts
+
+In case You have any issues using this code please do no hesitate to get in touch with me through kephaokari@gmail.com or leave a commit here on github.
+
+
 ## Known Bugs
 
 No known bugs
