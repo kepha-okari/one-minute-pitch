@@ -53,7 +53,7 @@ As a user I would like:
 * Python3.6
 
 ## Setup/Installation Requirements
-
+* internet access
 * $ git clone https://github.com/kepha-okari/one-minute-pitch.git
 * $ cd one-minute-pitch
 * $ python3.6 -m venv virtual (install virtual environment)
@@ -61,7 +61,6 @@ As a user I would like:
 * $ pip -m install -r requirements.txt (install dependencies)
 * Inside the manage.py module change the config_name parameter from 'production' to 'development' ie app = create_app('production') should be app = create_app('development')
 * $ ./start.sh
-This requires internet connection.
 
 ## Known Bugs
 
