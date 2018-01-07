@@ -58,7 +58,7 @@ As a user I would like:
 * $ cd one-minute-pitch
 * $ python3.6 -m venv virtual (install virtual environment)
 * $ source virtual/bin/activate
-* $ pip -m install -r requirements.txt (install dependencies)
+* $ python3.6 -m pip install -r requirements.txt (install all dependencies)
 * Inside the manage.py module change the config_name parameter from 'production' to 'development' ie app = create_app('production') should be app = create_app('development')
 * $ ./start.sh
 
