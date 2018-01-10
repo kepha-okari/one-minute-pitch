@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+ {% import 'macros.html' as macro%}
+
+{%block styles%}
+  {{ super() }}
+{%endblock%}
+
+<!-- content block -->
+{% block content %}
+<div class="container">
+  <div class="col-md-6">
+    <div class="well">
+      <h3>{{pitches.content}}</h3>
+    </div>
+  </div>
+
+{% endblock %}

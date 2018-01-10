@@ -1,19 +1,36 @@
 {% extends 'base.html'%}
+{% import 'macros.html' as macro%}
 
 {% block styles%}
     {{ super() }}
 {% endblock %}
 {% block content %}
+
+
     <div class="container" style="font-family: 'Russo One', sans-serif;">
-      <div class="row" style="margin-top:-30px">
-
+      <div class="row" style="margin-top:30px">
+          {{ macro.displayCategoryList(categories) }}
           <div class="col-sm-6" style="height:250px">
-            <h2> <a href="{{url_for('main.interview')}}">Interview</a></h2>
-            <h2> <a href="{{url_for('main.pick_up_line')}}">Pick up lines</a></h2>
-            <h2> <a href="{{url_for('main.product')}}">product</a></h2>
-            <h2> <a href="{{url_for('main.promotion')}}">promotion</a></h2>
+            <h2> <a href="">Interview</a></h2>
           </div>
-
     </div>
 
 {% endblock %}
+
+{% macro displayPitches(pitch_list) %}
+  {% for pitches in pitch_list %}
+  <div class="col-md-6">
+    <div class="well">
+      <div class="row">
+        <div class="col-md-6">
+            <h3>{{pitches.actual_pitch}}</h3>
+        </div>
+        <div class="col-md-6">
+          <p>POSTED: {{pitches.date_posted.strftime('%Y/%m/%d || %r')}}</p>
+          <a href="/pitch/{{pitches.id}}"><h4>COMMENT</h4></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% endmacro %}

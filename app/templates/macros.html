@@ -1,12 +1,26 @@
-{% macro displayPitches(pitches_list,category_id) %}
-
-    {% for pitch in pitches_list %}
-    {% if pitch.category_id==category_id%}
-        <div class="col-md-6">
-          <p>{{ pitch.content}} </p>
+{% macro displayCategoryList(category_list) %}
+  {% for category in category_list%}
+      <a href="/category/{{category.id}}">
+        <div>
+          <p>{{category.name|upper}}</p>
         </div>
-    {% endif%}
-
+      </a>
     {% endfor %}
+{% endmacro %}
 
+{% macro displayPitches(pitch_list) %}
+  {% for pitches in pitch_list %}
+  <div class="col-md-6">
+    <div class="well">
+      <div class="row">
+        <div class="col-md-6">
+            <h3>{{pitches.content}}</h3>
+        </div>
+        <div class="col-md-6">
+          <a href="/pitch/{{pitches.id}}"><h4>COMMENT</h4></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 {% endmacro %}
