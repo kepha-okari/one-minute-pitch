@@ -6,7 +6,7 @@ from .. import db
 from . forms import PitchForm, CommentForm
 from flask_login import login_required,current_user
 
-
+#display categories on the landing page
 @main.route('/')
 def index():
     """ View root page function that returns index page """
@@ -19,7 +19,8 @@ def index():
 
 
 #Route for adding a new pitch
-@main.route('/category/pitch/new/<int:id>', methods=['GET', 'POST'])
+@main.route('/category/new-pitch/<int:id>', methods=['GET', 'POST'])
+@login_required
 def new_pitch(id):
     ''' Function to check Pitches form '''
     form = PitchForm()
@@ -29,15 +30,15 @@ def new_pitch(id):
         abort(404)
 
     if form.validate_on_submit():
-        actual_pitch = form.content.data
-        new_pitch= Pitch(content=content,category_id= category_id,user_id=current_user.idd)
+        content = form.content.data
+        new_pitch= Pitch(content=content,category_id= category.id,user_id=current_user.id)
         new_pitch.save_pitch()
-        return redirect(url_for('.category', id=category.id))
+        return redirect(url_for('.index', id=category.id))
 
     return render_template('new_pitch.html', pitch_form=form, category=category)
 
 #view pitches
-@main.route('/pitch/<int:id>', methods=['GET', 'POST'])
+@main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
     '''Function the returns a single pitch for comment to be added'''
@@ -48,6 +49,9 @@ def view_pitch(id):
         abort(404)
 
     return render_template('view-pitch.html', pitches=pitches)
+
+
+
 
 # @main.route('/category/pitch/new/', methods=['GET', 'POST'] )
 # @login_required
