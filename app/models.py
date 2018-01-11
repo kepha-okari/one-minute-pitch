@@ -47,7 +47,6 @@ class User(UserMixin,db.Model):
         return f'User {self.username}'
 
 #category model
-
 class PitchCategory(db.Model):
 
     __tablename__ = 'categories'
