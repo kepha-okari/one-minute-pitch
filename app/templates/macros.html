@@ -18,12 +18,19 @@
             <h3>{{pitches.content}}</h3>
             <h3>{{pitches.user_id}}</h3>
             <h3>{{pitches.category_id}}</h3>
+            <a href="/pitch/{{pitches.id}}"><h4>COMMENT</h4></a>
         </div>
-        <div class="col-md-6">
-          <a href="/pitch/{{pitches.id}}"><h4>COMMENT</h4></a>
         </div>
-      </div>
     </div>
   </div>
+  {% endfor %}
+{% endmacro %}
+
+
+{% macro displaySpecificPitch(specific_pitch_list) %}
+ {% for comment in specific_pitch_list %}
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-left">
+        <hr> {{comment.opinion}}
+    </div>
   {% endfor %}
 {% endmacro %}

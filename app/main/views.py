@@ -48,7 +48,8 @@ def view_pitch(id):
     if pitches is None:
         abort(404)
 
-    return render_template('view-pitch.html', pitches=pitches)
+    comment = Comments.get_comments(id)
+    return render_template('view-pitch.html', pitches=pitches,comment=comment)
 
 
 
@@ -74,9 +75,9 @@ def view_pitch(id):
 #     return render_template('new_pitch.html', form_pitch=form)
 
 
-@main.route('/pitch/new/<int:id>', methods=['GET', 'POST'])
+@main.route('/write_comment/<int:id>', methods=['GET', 'POST'])
 @login_required
-def new_comment(id):
+def post_comment(id):
     '''
     Function that returns a list of comments for the particular pitch
     '''
@@ -92,7 +93,7 @@ def new_comment(id):
         new_comment.save_comment()
         return redirect(url_for('.new_pitch', id=pitches.id))
 
-    return render_template('comment.html', comment_form=form)
+    return render_template('post_comment.html', comment_form=form)
 
 
 

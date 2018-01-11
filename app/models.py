@@ -29,7 +29,7 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pitches = db.relationship("Pitch", backref="user", lazy = "dynamic")
-    # comment = db.relationship("Comments", backref="user", lazy = "dynamic")
+    comment = db.relationship("Comments", backref="user", lazy = "dynamic")
 
     # securing passwords
     @property
@@ -77,7 +77,7 @@ class Pitch(db.Model):
     content = db.Column(db.String)
     category_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    comment = db.relationship("Comments", backref="user", lazy = "dynamic")
+    comment = db.relationship("Comments", backref="pitches", lazy = "dynamic")
 
 
 
@@ -99,14 +99,14 @@ class Pitch(db.Model):
 
 # comments
 class Comments(db.Model):
-    '''
-    Comment class that creates instances of Comments class that will be attached to a specified pitch
-    '''
+    '''User comment model for each pitch '''
+
     __tablename__ = 'comments'
 
     # add columns
     id = db.Column(db. Integer, primary_key=True)
     opinion = db.Column(db.String(255))
+    time_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
 
@@ -118,7 +118,7 @@ class Comments(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_Comments(self, id):
+    def get_comments(self, id):
         comment = Comments.query.order_by(
-            Comments.date_posted.desc()).filter_by(pitches_id=id).all()
+            Comments.time_posted.desc()).filter_by(pitches_id=id).all()
         return comment
