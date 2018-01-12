@@ -75,7 +75,7 @@ class Pitch(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     content = db.Column(db.String)
-    category_id = db.Column(db.Integer)
+    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     comment = db.relationship("Comments", backref="pitches", lazy = "dynamic")
 
@@ -91,8 +91,8 @@ class Pitch(db.Model):
         Pitch.all_pitches.clear()
 
     # display pitches
-    @classmethod
-    def get_pitches(cls, id):
+
+    def get_pitches(id):
         pitches = Pitch.query.filter_by(category_id=id).all()
         return pitches
 
@@ -122,3 +122,13 @@ class Comments(db.Model):
         comment = Comments.query.order_by(
             Comments.time_posted.desc()).filter_by(pitches_id=id).all()
         return comment
+
+#votes
+class Votes(db.Model):
+    '''class to model votes '''
+    __tablename__='votes'
+
+    id = db.Column(db. Integer, primary_key=True)
+    vote = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))

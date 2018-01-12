@@ -8,22 +8,25 @@
 <!-- content block -->
 {% block content %}
 <div class="container">
-  <div class="col-md-6">
-    <p class="text-left"><a class="btn btn-primary" href="{{url_for('.new_pitch',id=pitches.id)}}">Post Pitch</a></p>
-    <div class="well">
-      <h3>{{pitches.content}}</h3>
+     <div class="col-md-6">
+        <p class="text-left"><a class="btn btn-primary" href="/category/new-pitch/{{category.id}}">Post Pitch</a></p>
+        <div class="well">
+          <h3>{{pitches.content}}</h3>
+        </div>
+
+        <!-- comments -->
+        <div class="col-md-6">
+         <h4 class="text-right">    Comments <a class="btn btn-primary" href="/view_pitch/{{pitches.id}}">Add a comment</a></h4>
+
+         {% if comment %}
+         {{ macro.displaySpecificPitch(comment)}}
+         <hr>
+         {%else%}
+         <h3 class="text-center">No comments </h3>
+         {% endif %}
+        </div>
+
     </div>
-    <div class="col-md-6">
-     <h4>Comments:</h4>
-     {% if comment %}
-     {{ macro.displaySpecificPitch(comment)}}
-     <hr>
-     {%else%}
-     <h3 class="text-center">No comments </h3>
-     {% endif %}
-     <p class="text-right"><a class="btn btn-primary" href="/write_comment/{{pitches.id}}">Add a comment</a></p>
- </div>
-</div>
   </div>
 
 {% endblock %}

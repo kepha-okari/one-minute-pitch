@@ -26,6 +26,7 @@ def new_pitch(id):
     form = PitchForm()
     category = PitchCategory.query.filter_by(id=id).first()
 
+
     if category is None:
         abort(404)
 
@@ -33,48 +34,36 @@ def new_pitch(id):
         content = form.content.data
         new_pitch= Pitch(content=content,category_id= category.id,user_id=current_user.id)
         new_pitch.save_pitch()
-        return redirect(url_for('.index', id=category.id))
+        return redirect(url_for('.category', id=category.id))
 
     return render_template('new_pitch.html', pitch_form=form, category=category)
+
+@main.route('/categories/<int:id>')
+def category(id):
+    category = PitchCategory.query.get(id)
+    if category is None:
+        abort(404)
+
+    pitches=Pitch.get_pitches(id)
+    return render_template('category.html', pitches=pitches, category=category)
 
 #view pitches
 @main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
     '''Function the returns a single pitch for comment to be added'''
-
+    print(id)
     pitches = Pitch.query.get(id)
+    # pitches = Pitch.query.filter_by(id=id).all()
 
     if pitches is None:
         abort(404)
-
+    #
     comment = Comments.get_comments(id)
-    return render_template('view-pitch.html', pitches=pitches,comment=comment)
+    return render_template('view-pitch.html', pitches=pitches, comment=comment, category_id=id)
 
 
-
-
-# @main.route('/category/pitch/new/', methods=['GET', 'POST'] )
-# @login_required
-# #route to page for posting pitch
-# def new_pitch(id):
-#     """ function to create the pitches """
-#     form = PitchForm()
-#
-#     if form.validate_on_submit():
-#         content=form.content.data
-#         category_id=form.category_id.data
-#
-#         ### clear content field after post
-#         form.content.data = ''
-#
-#         new_pitch= Pitch(content=content,category_id= category_id)
-#         new_pitch.save_pitch()
-#
-#
-#     return render_template('new_pitch.html', form_pitch=form)
-
-
+#adding a comment
 @main.route('/write_comment/<int:id>', methods=['GET', 'POST'])
 @login_required
 def post_comment(id):
