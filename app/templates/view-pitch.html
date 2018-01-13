@@ -8,21 +8,21 @@
 <!-- content block -->
 {% block content %}
 <div class="container">
-     <div class="col-md-6">
-        <p class="text-left"><a class="btn btn-primary" href="/category/new-pitch/{{pitches.id}}">Post Pitch</a></p>
+     <div class="col-md-12">
+        <p class="text-left"><a class="btn btn-primary" href="{{url_for('.new_pitch',id=pitches.category_id)}}">Post Pitch</a></p>
         <div class="well" style="background-color:lightblue">
           <h3>{{pitches.content}}</h3>
         </div>
 
         <!-- comments -->
         <div class="col-md-6 col-offset-1">
-         <h4 class="text-right">    Comments   <a class="btn btn-primary" href="{{url_for('.post_comment',id=pitches.id)}}">Add a comment</a></h4>
+         <h4 class="text-right">    Comments   <a class="btn btn-primary" href="{{url_for('.post_comment',id=pitches.id)}}"> Add your comment</a></h4>
 
          {% if comment %}
          {{ macro.displaySpecificPitch(comment)}}
          <hr>
          {%else%}
-         <h3 class="text-center">No comments </h3>
+         <h3 class="text-center" style="color:orange;">No comments </h3>
          {% endif %}
         </div>
 
