@@ -9,14 +9,14 @@
 {% block content %}
 <div class="container">
      <div class="col-md-6">
-        <p class="text-left"><a class="btn btn-primary" href="/category/new-pitch/{{category.id}}">Post Pitch</a></p>
-        <div class="well">
+        <p class="text-left"><a class="btn btn-primary" href="/category/new-pitch/{{pitches.id}}">Post Pitch</a></p>
+        <div class="well" style="background-color:lightblue">
           <h3>{{pitches.content}}</h3>
         </div>
 
         <!-- comments -->
-        <div class="col-md-6">
-         <h4 class="text-right">    Comments <a class="btn btn-primary" href="/view_pitch/{{pitches.id}}">Add a comment</a></h4>
+        <div class="col-md-6 col-offset-1">
+         <h4 class="text-right">    Comments   <a class="btn btn-primary" href="{{url_for('.post_comment',id=pitches.id)}}">Add a comment</a></h4>
 
          {% if comment %}
          {{ macro.displaySpecificPitch(comment)}}

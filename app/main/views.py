@@ -47,7 +47,7 @@ def category(id):
     pitches=Pitch.get_pitches(id)
     return render_template('category.html', pitches=pitches, category=category)
 
-#view pitches
+#view single pitch alongside its comments
 @main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
@@ -67,12 +67,11 @@ def view_pitch(id):
 @main.route('/write_comment/<int:id>', methods=['GET', 'POST'])
 @login_required
 def post_comment(id):
-    '''
-    Function that returns a list of comments for the particular pitch
-    '''
+    ''' function to post comments '''
     form = CommentForm()
+    title = 'post comment'
     pitches = Pitch.query.filter_by(id=id).first()
-    #
+
     if pitches is None:
          abort(404)
 
@@ -80,9 +79,9 @@ def post_comment(id):
         opinion = form.opinion.data
         new_comment = Comments(opinion=opinion, user_id=current_user.id, pitches_id=pitches.id)
         new_comment.save_comment()
-        return redirect(url_for('.new_pitch', id=pitches.id))
+        return redirect(url_for('.view_pitch', id=pitches.id))
 
-    return render_template('post_comment.html', comment_form=form)
+    return render_template('post_comment.html', comment_form=form, title=title)
 
 
 
