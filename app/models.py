@@ -30,6 +30,8 @@ class User(UserMixin,db.Model):
     profile_pic_path = db.Column(db.String())
     pitches = db.relationship("Pitch", backref="user", lazy = "dynamic")
     comment = db.relationship("Comments", backref="user", lazy = "dynamic")
+    # vote_id = db.relationship("Votes", backref="user", lazy = "dynamic")
+
 
     # securing passwords
     @property
@@ -78,6 +80,7 @@ class Pitch(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     comment = db.relationship("Comments", backref="pitches", lazy = "dynamic")
+    # vote = db.relationship("Votes", backref="pitches", lazy = "dynamic")
 
 
 
@@ -110,6 +113,7 @@ class Comments(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
 
+
     def save_comment(self):
         '''
         Save the Comments/comments per pitch
@@ -124,11 +128,16 @@ class Comments(db.Model):
         return comment
 
 #votes
-class Votes(db.Model):
-    '''class to model votes '''
-    __tablename__='votes'
+# class Votes(db.Model):
+#     '''class to model votes '''
+#     __tablename__='votes'
 
-    id = db.Column(db. Integer, primary_key=True)
-    vote = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+#     id = db.Column(db. Integer, primary_key=True)
+#     vote = db.Column(db.DateTime, default=datetime.utcnow)
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+#     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+#     vote_id = db.relationship("Votes", backref="vote", lazy = "dynamic")
+
+#     @classmethod
+#     def vote_pitch(cls,id):
+
