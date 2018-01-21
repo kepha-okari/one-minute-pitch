@@ -1,7 +1,7 @@
 
 from flask import render_template, request, redirect, url_for, abort
 from . import main
-from ..models import User,Pitch,Comments,PitchCategory
+from ..models import User,Pitch,Comments,PitchCategory,Votes
 from .. import db
 from . forms import PitchForm, CommentForm
 from flask_login import login_required,current_user
@@ -22,10 +22,9 @@ def index():
 @main.route('/category/new-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def new_pitch(id):
-    ''' Function to check Pitches form '''
+    ''' Function to check Pitches form and fetch data from the fields '''
     form = PitchForm()
     category = PitchCategory.query.filter_by(id=id).first()
-
 
     if category is None:
         abort(404)
@@ -83,6 +82,33 @@ def post_comment(id):
 
     return render_template('post_comment.html', comment_form=form, title=title)
 
+#Routes upvoting/downvoting pitches
+@main.route('/pitch/upvote/<int:id>')
+@login_required
+def upvote(id):
+    '''
+    View function that add one to the vote_number column in the votes table
+    '''
+    pitch_id = Pitch.query.filter_by(id=id).first()
+
+    if pitch_id is None:
+         abort(404)
+    #get(id)
+
+    new_vote = Votes(vote=1, user_id=current_user.id, pitches_id=pitch_id.id)
+    new_vote.save_vote()
+    return redirect(url_for('.view_pitch', id=id))
 
 
-#Routes for displaying the different pitches
+@main.route('/pitch/downvote/<int:id>')
+@login_required
+def downvote(id):
+
+    '''
+    View function that add one to the vote_number column in the votes table
+    '''
+    pitch_id = pitch_id.query.filter_by(id=id).first()
+
+    new_vote = Vote(user=current_user, pitch_id=pitch_id, vote_number= -1)
+    new_vote.save_vote()
+    return redirect(url_for('.single_pitch_id', id=pitch_id.id))
