@@ -69,7 +69,9 @@ def new_category():
 @main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
 @login_required
 def view_pitch(id):
-    '''Function the returns a single pitch for comment to be added'''
+    '''
+    Function the returns a single pitch for comment to be added
+    '''
     print(id)
     pitches = Pitch.query.get(id)
     # pitches = Pitch.query.filter_by(id=id).all()
@@ -134,3 +136,14 @@ def downvote(id):
     new_vote = Votes(vote=int(2), user_id=current_user.id, pitches_id=pitch_id.id)
     new_vote.save_vote()
     return redirect(url_for('.view_pitch', id=id))
+
+@main.route('/pitch/downvote/<int:id>')
+def vote_count(id):
+    '''
+    View function to return the total vote count per pitch
+    '''
+    votes = Votes.query.filter_by(user_id=user_id, line_id=line_id).all()
+
+    total_votes = votes.count()
+
+    return total_votes
