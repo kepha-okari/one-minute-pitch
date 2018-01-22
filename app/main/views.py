@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, abort
 from . import main
 from ..models import User,Pitch,Comments,PitchCategory,Votes
 from .. import db
-from . forms import PitchForm, CommentForm
+from . forms import PitchForm, CommentForm, CategoryForm
 from flask_login import login_required,current_user
 
 #display categories on the landing page
@@ -45,6 +45,25 @@ def category(id):
 
     pitches=Pitch.get_pitches(id)
     return render_template('category.html', pitches=pitches, category=category)
+
+@main.route('/add/category', methods=['GET','POST'])
+@login_required
+def new_category():
+    '''
+    View new group route function that returns a page with a form to create a category
+    '''
+    form = CategoryForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        new_category = PitchCategory(name=name)
+        new_category.save_category()
+
+        return redirect(url_for('.index'))
+
+    title = 'New category'
+    return render_template('new_category.html', category_form = form,title=title)
+
 
 #view single pitch alongside its comments
 @main.route('/view-pitch/<int:id>', methods=['GET', 'POST'])
@@ -93,11 +112,11 @@ def upvote(id):
 
     if pitch_id is None:
          abort(404)
-    #get(id)
 
-    new_vote = Votes(vote=1, user_id=current_user.id, pitches_id=pitch_id.id)
+    new_vote = Votes(vote=int(1), user_id=current_user.id, pitches_id=pitch_id.id)
     new_vote.save_vote()
     return redirect(url_for('.view_pitch', id=id))
+
 
 
 @main.route('/pitch/downvote/<int:id>')
@@ -107,8 +126,11 @@ def downvote(id):
     '''
     View function that add one to the vote_number column in the votes table
     '''
-    pitch_id = pitch_id.query.filter_by(id=id).first()
+    pitch_id = Pitch.query.filter_by(id=id).first()
 
-    new_vote = Vote(user=current_user, pitch_id=pitch_id, vote_number= -1)
+    if pitch_id is None:
+         abort(404)
+
+    new_vote = Votes(vote=int(2), user_id=current_user.id, pitches_id=pitch_id.id)
     new_vote.save_vote()
-    return redirect(url_for('.single_pitch_id', id=pitch_id.id))
+    return redirect(url_for('.view_pitch', id=id))
